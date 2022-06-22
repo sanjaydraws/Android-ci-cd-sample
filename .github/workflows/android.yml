@@ -24,4 +24,11 @@ jobs:
       - name: Unit Tests
         id: tests
         run: ./gradlew test
-
+# execute your unit tests
+      - name: Unit Tests
+        id: tests
+        run: ./gradlew test
+# build a release app bundle
+      - name: Build app release bundle(AAB)
+        id: BuildRelease
+        run: ./gradlew bundleRelease
