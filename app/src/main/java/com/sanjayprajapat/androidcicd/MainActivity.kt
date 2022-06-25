@@ -5,13 +5,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import androidx.databinding.ktx.BuildConfig
+import com.sanjayprajapat.androidcicd.databinding.ActivityMainBinding
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 class MainActivity : AppCompatActivity() {
+    var binding:ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding?.apply {
+            setContentView(root)
+        }
+        if(BuildConfig.DEBUG){
+            binding?.myBuild?.text = "this is Debug Build"
+        }else{
+            binding?.myBuild?.text = "this is live Build"
+        }
         printHashKey()
     }
 
