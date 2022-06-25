@@ -1,20 +1,26 @@
-package com.sanjayprajapat.androidcicd
 
-import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.util.Base64
-import android.util.Log
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+keystore ->
+SHA ->
+HashKey ->
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        printHashKey()
-    }
+both debug keystore generated same hashkey
+EFo6GIZVLsnAzNve0RX9DzMYe/4=
 
+
+
+generate debug keystore
+
+keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysi
+ze 2048 -validity 10000
+
+
+// to generate hashkey
+keytool -exportcert -alias empida -keystore /Users/chanchalwarde/Documents/Project/sanjay/EmpidaNewProject/EmpidaKeystore | openssl sha1 -binary | openssl base64
+
+
+
+
+//generate hashkey from code
     fun printHashKey(){
         try {
             val info = packageManager?.getPackageInfo("com.sanjayprajapat.androidcicd", PackageManager.GET_SIGNATURES)
@@ -36,4 +42,4 @@ class MainActivity : AppCompatActivity() {
             Log.e("exception", e.toString())
         }
     }
-}
+
