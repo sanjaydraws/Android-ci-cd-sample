@@ -42,9 +42,9 @@ jobs:
       - name: Build Produstion APK
           run: bash ./gradlew assembleProductionDebug --stacktrace
 
-      - name: Upload APK 
+      - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
           name: app
-          path: app/build/outputs/apk/production/debug/*.apk
+          path: app/build/outputs/apk/production/debug/app-production.apk
           retention-days: 3
