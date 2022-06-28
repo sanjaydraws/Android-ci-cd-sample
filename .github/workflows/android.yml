@@ -32,19 +32,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-#      - name: Build debug APK
-#        run: bash ./gradlew assembleDebug --stacktrace
-#      - name: Upload APK
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: app
-#          path: app/build/outputs/apk/debug/app-debug.apk
-      - name: Build Produstion APK
-        run: bash ./gradlew assembleProductionDebug --stacktrace
-
+      - name: Build debug APK
+        run: bash ./gradlew assembleDebug --stacktrace
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: app
-          path: app/build/outputs/apk/production/debug/*.apk
-          retention-days: 3
+          path: app/build/outputs/apk/debug/app-debug.apk
