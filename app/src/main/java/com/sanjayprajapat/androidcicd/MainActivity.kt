@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import androidx.databinding.ktx.BuildConfig
+import com.sanjayprajapat.androidcicd.BuildConfig.BASE_URL
+import com.sanjayprajapat.androidcicd.BuildConfig.FLAVOR
 import com.sanjayprajapat.androidcicd.databinding.ActivityMainBinding
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -18,11 +20,21 @@ class MainActivity : AppCompatActivity() {
         binding?.apply {
             setContentView(root)
         }
-        if(BuildConfig.DEBUG){
-            binding?.myBuild?.text = "this is Debug Build"
-        }else{
-            binding?.myBuild?.text = "this is live Build"
-        }
+//        Log.d("TAG", "onCreate: ${BuildConfig.BASE_URL}")
+//        if(BuildConfig.DEBUG){
+//
+//            if (BuildConfig.IS_LIVE.equals("debug")) {
+//                binding?.myBuild?.text = "this is staging debug Build"
+//            }else if(BuildConfig.IS_LIVE.equals("release")){
+//                binding?.myBuild?.text = "this is staging release Build"
+//            }
+//        }else{
+//            if (BuildConfig.IS_LIVE.equals("debug")) {
+//                binding?.myBuild?.text = "this is live debug Build"
+//            }else if(BuildConfig.IS_LIVE.equals("release")){
+//                binding?.myBuild?.text = "this is live release Build"
+//            }
+//        }
         printHashKey()
     }
 

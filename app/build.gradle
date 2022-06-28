@@ -3,23 +3,85 @@ plugins {
     id 'kotlin-android'
 }
 
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 1
+
+
+def appVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+def appVersionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch
+def appPackageId = 'com.sanjayprajapat.androidcicd'
 android {
     compileSdk 31
 
+    // this prevents the aab dynamic language change issue
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
+    signingConfigs {
+        liveSigning {
+            storeFile file('../release.jks')
+
+            storePassword 'android'
+            keyAlias 'cicd'
+            keyPassword 'android'
+        }
+        debug {
+            storeFile file('../debug.keystore')
+            storePassword 'android'
+            keyAlias = 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
     defaultConfig {
-        applicationId "com.sanjayprajapat.androidcicd"
+        applicationId appPackageId
         minSdk 22
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode appVersionCode
+        versionName appVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+            debuggable true/*
+            minifyEnabled true
+            shrinkResources true*/
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "main"
+
+    productFlavors {
+        staging {
+            buildConfigField("String", "BASE_URL", "\"http://www.freeapp.com\"")
+
+//                buildConfigField 'String', 'BASE_URL', '"https://abscdefg.com/api/v5.17/"'
+//                resValue "string", "app_name_flavour", "androidcicd"
+//                signingConfig signingConfigs.debug
+//                buildConfigField 'String', 'CHAT_ROOT', '"chat_staging"'
+//                buildConfigField "boolean", "IS_LIVE", "false"
+
+        }
+        live {
+            buildConfigField("String", "BASE_URL", "\"http://www.paidapp.com\"")
+
+//                buildConfigField 'String', 'BASE_URL', '"https://abcdefg.com/api/v5.17/"'
+//                resValue "string", "app_name_flavour", "androidcicd"
+//                signingConfig signingConfigs.liveSigning
+//                buildConfigField 'String', 'CHAT_ROOT', '"chat_prod"'
+//                buildConfigField "boolean", "IS_LIVE", "false"
+
         }
     }
     buildFeatures{
