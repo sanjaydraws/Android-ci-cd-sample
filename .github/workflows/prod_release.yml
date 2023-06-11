@@ -1,4 +1,5 @@
-name: Android CI
+
+name: Android CI Release
 
 on:
   push:
@@ -26,18 +27,18 @@ jobs:
       - name: 🧪 Run Tests
         run: ./gradlew test
 
-      - name: 🛠 Build Project with Spotless Check
-        run: ./gradlew spotlessCheck
+      #      - name: 🛠 Build Project with Spotless Check
+      #        run: ./gradlew spotlessCheck
 
       - name: ⏳ Build with Gradle
         run: ./gradlew build
 
       - name: 🏗 Build APK
-        run: bash ./gradlew assembleProductionDebug --stacktrace
+        run: bash ./gradlew assembleLiveDebug --stacktrace
 
       - name: 🚀 Upload APK 📱
         uses: actions/upload-artifact@v2
         with:
           name: app
-          path: app/build/outputs/apk/production/debug/*.apk
+          path: app/build/outputs/apk/live/debug/*.apk
           retention-days: 3

@@ -1,41 +1,43 @@
-name: Android Pull Request & Master CI
+name: Android CI
 
 on:
-  pull_request:
-    branches:
-      - 'master'
   push:
-    branches:
-      - 'master'
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 
 jobs:
-  test:
-    name: Run Unit Tests
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
-      - name: set up JDK 11
+
+      - name: 🧱 Set Up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Unit tests
-        run: bash ./gradlew test --stacktrace
 
-  apk:
-    name: Generate APK
-    runs-on: ubuntu-latest
+      - name: Grant Gradlew rights
+        run: chmod +x gradlew
 
-    steps:
-      - uses: actions/checkout@v1
-      - name: set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Build debug APK
-        run: bash ./gradlew assembleDebug --stacktrace
-      - name: Upload APK
-        uses: actions/upload-artifact@v1
+      - name: 🧪 Run Tests
+        run: ./gradlew test
+
+      #      - name: 🛠 Build Project with Spotless Check
+      #        run: ./gradlew spotlessCheck
+
+      - name: ⏳ Build with Gradle
+        run: ./gradlew build
+
+      - name: 🏗 Build APK
+        run: bash ./gradlew assembleStagingDebug --stacktrace
+
+      - name: 🚀 Upload APK 📱
+        uses: actions/upload-artifact@v2
         with:
           name: app
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/staging/debug/*.apk
+          retention-days: 3
