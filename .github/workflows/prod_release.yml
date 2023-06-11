@@ -3,9 +3,9 @@ name: Android CI Release
 
 on:
   push:
-    branches: [ master ]
+    branches: [ dev-release-build ]
   pull_request:
-    branches: [ master ]
+    branches: [ dev-release-build ]
 
 
 jobs:
